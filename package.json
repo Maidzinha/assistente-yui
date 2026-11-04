@@ -1,0 +1,74 @@
+{
+  "name": "assistente-desktop",
+  "productName": "Assistente",
+  "version": "0.1.0",
+  "description": "Assistente pessoal de IA local para Windows, com conversa por texto e voz.",
+  "main": "out/main/index.js",
+  "private": true,
+  "scripts": {
+    "dev": "electron-vite dev",
+    "build": "electron-vite build",
+    "start": "electron-vite preview",
+    "typecheck": "tsc --noEmit -p tsconfig.node.json && tsc --noEmit -p tsconfig.web.json",
+    "dist": "electron-vite build && electron-builder --win"
+  },
+  "author": "Helder",
+  "build": {
+    "appId": "com.helder.assistente",
+    "productName": "Assistente",
+    "executableName": "Assistente",
+    "directories": {
+      "output": "release",
+      "buildResources": "build"
+    },
+    "files": [
+      "out/**",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "voice-workers",
+        "to": "voice-workers",
+        "filter": [
+          "*.py"
+        ]
+      }
+    ],
+    "npmRebuild": false,
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "build/icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Assistente Yui",
+      "artifactName": "Assistente-Yui-Instalador-${version}.${ext}"
+    }
+  },
+  "devDependencies": {
+    "@pixiv/three-vrm": "3.5.5",
+    "@types/node": "20.16.11",
+    "@types/react": "18.3.11",
+    "@types/react-dom": "18.3.1",
+    "@types/three": "0.180.0",
+    "@vitejs/plugin-react": "4.3.2",
+    "electron": "33.2.0",
+    "electron-builder": "^25.1.8",
+    "electron-vite": "2.3.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "three": "0.180.0",
+    "typescript": "5.6.3",
+    "vite": "5.4.10"
+  },
+  "allowScripts": {
+    "electron@33.2.0": true,
+    "esbuild@0.21.5": true
+  }
+}
