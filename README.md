@@ -1,30 +1,97 @@
-# Assistente — Yuri Degurechaff (“Yui”)
+<div align="center">
 
-Assistente pessoal para Windows 10/11 com a **Yui**, uma irmãzinha brincalhona que conversa por **texto ou voz**,
-em português, lembra do que você conta e ajuda a usar o PC. Ela aparece em **3D** (modelo VRM), mexe a boca
-enquanto fala e muda de expressão conforme a emoção da frase.
+# Assistente Yui ♡
 
-Electron + React + TypeScript, com processos separados:
+**Sua irmãzinha virtual no PC.**
 
-| Processo | Papel |
-|---|---|
-| `src/main` | Acesso ao sistema: IA, voz, memória, ações do Windows, configurações, histórico, créditos |
-| `src/preload` | Ponte mínima e tipada (`window.assistant`) via `contextBridge` |
-| `src/renderer` | Interface React (sem Node, `sandbox`, `contextIsolation`, CSP) |
+Converse por texto ou por voz com a **Yui**, uma irmãzinha brincalhona que responde com voz própria, lembra do que
+você conta, aparece em 3D mudando de expressão e ainda ajuda a usar o computador. Em português (Brasil).
+
+**Português** · [English](README.en.md)
+
+[![Baixar](https://img.shields.io/github/v/release/Maidzinha/assistente-yui?label=baixar&color=e9799f&style=for-the-badge)](https://github.com/Maidzinha/assistente-yui/releases/latest)
+![Windows 10/11](https://img.shields.io/badge/Windows-10%20%7C%2011-1a1a1a?style=for-the-badge&logo=windows)
+![Electron](https://img.shields.io/badge/Electron-33-47848F?style=for-the-badge&logo=electron)
+[![Licença: uso privado](https://img.shields.io/badge/licen%C3%A7a-uso%20privado-e9799f?style=for-the-badge)](LICENSE)
+
+![Tela inicial do Assistente Yui](docs/images/inicio.png)
+
+</div>
+
+## Baixar
+
+Vá em **[Releases → última versão](https://github.com/Maidzinha/assistente-yui/releases/latest)** e baixe o
+**`Assistente-Yui-Instalador-<versão>.exe`**. Para conferir o download, compare o SHA-256 do arquivo com o `SHA256SUMS.txt` da release.
+
+**Requisitos:** Windows 10 ou 11, 64 bits, e internet (a IA e a voz rodam na nuvem). Você vai precisar de duas
+chaves de API, das contas **suas**:
+
+| Serviço | Para quê | Custo |
+|---|---|---|
+| [Groq](https://console.groq.com) | IA da Yui e reconhecimento da sua voz | Tem plano gratuito (com limite por minuto); o pago custa centavos |
+| [ElevenLabs](https://elevenlabs.io) | A voz da Yui | Tem plano gratuito com créditos mensais |
+
+> **"O Windows protegeu o computador"?** Esse aviso do SmartScreen aparece porque o app não tem assinatura digital comercial.
+> Clique em **Mais informações → Executar assim mesmo**. Se o **Controle Inteligente de Aplicativos** do Windows estiver
+> ligado, ele pode bloquear o app instalado; nesse caso, veja [Compilar a partir do código](#compilar-a-partir-do-código).
+
+## Como usar
+
+1. Instale e abra o **Assistente Yui**.
+2. Em **Configurações** (engrenagem), aba **IA**: escolha "compatível com OpenAI", URL `https://api.groq.com/openai/v1`,
+   modelo `openai/gpt-oss-20b` e cole a chave da Groq. Faça o mesmo no **Microfone**, com o modelo `whisper-large-v3-turbo`.
+3. Aba **Voz**: escolha **ElevenLabs**, cole a chave e o **Voice ID** da voz que você quer (pode ser uma voz clonada sua).
+4. Aba **Aparência**: importe um modelo **`.vrm`** (feito no [VRoid Studio](https://vroid.com/studio), por exemplo) para ver a Yui em 3D.
+   Sem modelo, ela aparece em 2D.
+5. Toque no **microfone** e converse, ou escreva na caixa de texto.
+
+O painel **Créditos** mostra quanto ainda resta na ElevenLabs e quanto você gastou na Groq no mês.
 
 ## O que ela faz
 
-- 🎙️ **Conversa por voz**: você fala, ela transcreve, responde e fala frase a frase (começa a falar antes de terminar a resposta).
-- 💬 **Voz expressiva**: com a ElevenLabs (v3/v4), a IA coloca marcações de emoção como `[laughing]` ou `[softly]` só quando fazem sentido; o padrão é falar normal.
-- 🧠 **Memória de longo prazo**: guarda fatos importantes sobre você (nunca dados sensíveis) e usa nas próximas conversas. Dá para ver e apagar em Configurações → Memória.
-- 💖 **Personalidade de irmãzinha**: descontraída, faz piadas e às vezes zoa com carinho.
-- 🧍‍♀️ **Yui em 3D**: modelo `.vrm` (feito no VRoid Studio, por exemplo) com piscadas, respiração, lábios sincronizados com a voz e expressões (feliz, triste, surpresa, brava, relaxada).
-- 📊 **Créditos**: painel com os caracteres restantes na ElevenLabs e o gasto/limites do dia na Groq.
-- 🗂️ **Ações no PC**: encontrar arquivos, abrir pastas, documentos, aplicativos e sites, sempre por uma lista fechada de ações.
+- 🎙️ **Conversa por voz:** você fala, ela entende e responde falando, frase a frase (começa antes de terminar a resposta).
+- 💬 **Voz com emoção:** nos modelos v3/v4 da ElevenLabs, a Yui ri, suspira ou fala baixinho só quando faz sentido; o padrão é falar normal.
+- 🧠 **Memória:** lembra das coisas importantes que você conta (nunca dados sensíveis). Dá para ver e apagar em Configurações → Memória.
+- 💖 **Personalidade:** irmãzinha descontraída, faz piadas e às vezes te zoa, sempre com carinho.
+- 🧍‍♀️ **Yui em 3D:** pisca, respira, mexe a boca com a voz e muda de expressão (feliz, triste, surpresa, brava, relaxada).
+- 📊 **Créditos:** caracteres restantes da ElevenLabs, gasto do mês e pedidos restantes do dia na Groq.
+- 🗂️ **Ajuda no PC:** encontra arquivos, abre pastas, documentos, aplicativos e sites.
 
-## Iniciar
+## Segurança e privacidade
 
-Requisitos: Node.js 20+ e Windows 10/11.
+- As **chaves de API** ficam cifradas pelo Windows (DPAPI) no seu PC e nunca vão para o código.
+- O **microfone** só liga quando você toca nele, e o áudio não fica salvo no PC (arquivos temporários são apagados logo após o uso).
+- As ações no PC seguem uma **lista fechada**. O que muda arquivos ou abre sites **pede confirmação**; terminal,
+  registro, instalação de programas e pastas do sistema são **bloqueados**.
+- O que você fala e escreve vai para a Groq e para a ElevenLabs para gerar as respostas, conforme os termos de cada serviço.
+
+## Licença
+
+O Assistente Yui é **proprietário**, sob uma [licença de uso privado](LICENSE). Todos os direitos são reservados.
+
+- ✅ **Pode:** baixar daqui, instalar e usar de graça para uso pessoal, compilar sem modificar e indicar o link oficial.
+- ❌ **Não pode:**
+  - modificar o app ou criar versões derivadas dele;
+  - apresentá-lo como obra sua;
+  - redistribuir as cópias fora deste repositório;
+  - vender;
+  - usar o nome, a personagem Yui ou o visual em outros projetos.
+
+O código está visível só para consulta, o que não dá permissão para reutilizá-lo.
+Os componentes de terceiros (Electron, React, three.js, three-vrm…) continuam com as licenças deles: veja [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).
+
+## Compilar a partir do código
+
+Compilar é permitido só para uso pessoal, sem modificar o app (veja a [licença](LICENSE)). É preciso o
+[Node.js 20+](https://nodejs.org) no Windows.
+
+```bash
+git clone https://github.com/Maidzinha/assistente-yui.git
+```
+
+```bash
+cd assistente-yui
+```
 
 ```bash
 npm install
@@ -34,87 +101,34 @@ npm install
 npm run dev
 ```
 
-Outros comandos: `npm run build` (compila em `out/`), `npm start` (abre a versão compilada), `npm run typecheck`,
-`npm run dist` (gera o instalador em `release/`).
+Outros comandos: `npm run build` (compila em `out/`), `npm run typecheck` e `npm run dist` (gera o instalador em `release/`).
 
-> **Controle Inteligente de Aplicativos do Windows**: o instalador não tem assinatura digital, então o Windows pode
-> bloquear o app instalado. Nesse caso, abra pelo Electron do projeto com um atalho para
-> `node_modules\electron\dist\electron.exe "<pasta do projeto>"` depois de `npm run build`.
+Se o Windows bloquear o app instalado, rode `npm run build` e abra pelo Electron do projeto com um atalho para
+`node_modules\electron\dist\electron.exe "<pasta do projeto>"`.
 
-## Provedores
+<details>
+<summary>Estrutura do projeto</summary>
 
-Tudo é ajustado em **Configurações** (ícone de engrenagem), que mostra o estado de cada provedor e o que falta.
-As configurações ficam em `%APPDATA%\Assistente\settings.json`; o arquivo
-[`config.example.json`](config.example.json) mostra o formato (sem credenciais).
-
-### IA e microfone — Groq (nuvem, recomendado)
-
-- Crie uma chave em https://console.groq.com → API Keys.
-- IA: provedor “compatível com OpenAI”, URL `https://api.groq.com/openai/v1`, modelo `openai/gpt-oss-20b` (o mais barato).
-- Microfone: mesmo provedor e URL, modelo `whisper-large-v3-turbo`.
-- O plano gratuito tem limite de tokens por minuto; quando estoura (erro 429), o app espera o tempo pedido e tenta de novo sozinho.
-
-Também funciona tudo local: **Ollama** ou qualquer servidor compatível com OpenAI (LM Studio, `llama-server`) para a IA,
-e **whisper.cpp** / faster-whisper para o microfone.
-
-### Voz da Yui
-
-- **ElevenLabs (nuvem, recomendado)**: chave em https://elevenlabs.io → Profile → API Keys, e o *Voice ID* da voz
-  (por exemplo, uma voz clonada). Modelos `eleven_v4_turbo`, `eleven_v4`, `eleven_v3` (entendem emoções),
-  `eleven_multilingual_v2` e `eleven_flash_v2_5`. Ajustes de estabilidade, similaridade e “jeito de falar”.
-- **Fish Audio** (nuvem), **XTTS + RVC** (local, voz treinada, via [`voice-workers/`](voice-workers)),
-  **Piper**, **vozes do Windows** e servidores compatíveis com OpenAI `/v1/audio/speech`.
-
-### Chaves de API
-
-As chaves são cifradas com o DPAPI do Windows (`safeStorage`) em `%APPDATA%\Assistente\secrets.json` e nunca ficam no código.
-
-### Modelo 3D
-
-Em Configurações → Aparência, importe um arquivo `.vrm` (VRM 0.x ou 1.0, até 150 MB). Ele é copiado para
-`%APPDATA%\Assistente\yui.vrm`. Sem modelo, a Yui aparece em 2D.
-
-## Como a voz funciona
-
-```
-microfone (só após clicar) → WAV 16 kHz em memória → transcrição (Groq ou local, pt-BR)
-  → mesma conversa e mesmo histórico do chat → resposta em streaming
-  → síntese frase a frase → boca e expressão da Yui acompanham a fala
-```
-
-- Estados visíveis: **Ouvindo**, **Pensando**, **Falando**, **Pronta** (e *Aguardando confirmação*).
-- Controles: silenciar microfone, silenciar a voz da Yui, interromper a fala e encerrar.
-
-## Ações no PC
-
-Lista explícita em [`src/main/actions/definitions.ts`](src/main/actions/definitions.ts). Não há execução de comandos de terminal.
-
-| Ação | Confirmação |
+| Caminho | O quê |
 |---|---|
-| Encontrar arquivos, abrir pasta, abrir documento (não executável), abrir aplicativo do Menu Iniciar, lembrar/esquecer | Não |
-| Pesquisar na internet, abrir site, criar pasta, mover, renomear, enviar para a Lixeira | **Sim** |
-| Instalar programas, terminais, registro, arquivos fora da pasta do usuário ou em `AppData` | Bloqueado |
+| `src/main/ai` | Adaptadores de IA (Groq/OpenAI-compatível, Ollama), personalidade e laço de ferramentas |
+| `src/main/voice` | Transcrição e voz (ElevenLabs, Fish Audio, XTTS + RVC, Piper, OpenAI-compatível) |
+| `src/main/memory` | Memória de longo prazo |
+| `src/main/actions` | Ações permitidas no PC, validação de caminhos e confirmações |
+| `src/main/config` | Configurações e chaves cifradas |
+| `src/main/usage.ts` · `avatar.ts` | Créditos dos serviços e importação do modelo 3D |
+| `src/preload` | Ponte segura entre a interface e o sistema |
+| `src/renderer` | Interface React (Yui em 3D, painéis, conversa, configurações) |
+| `src/shared` | Tipos, canais IPC e marcações de emoção da voz |
+| `voice-workers/` | Serviços Python locais da voz personalizada (XTTS e RVC, opcionais) |
+| `config.example.json` | Formato das configurações, sem credenciais |
 
-## Estrutura
+</details>
 
-```
-src/
-  shared/          tipos, canais IPC e marcações de emoção da voz
-  main/
-    ai/            adaptadores de LLM (Ollama, OpenAI-compatível/Groq), persona e laço de ferramentas
-    voice/         transcrição e voz (ElevenLabs, Fish Audio, XTTS+RVC, Piper, OpenAI-compatível)
-    memory/        memória de longo prazo
-    actions/       ações permitidas, validação de caminhos, aplicativos, executor com confirmação
-    config/        configurações e segredos cifrados
-    conversation/  histórico (somente texto)
-    usage.ts       créditos da ElevenLabs e gasto/limites da Groq
-    avatar.ts      importação do modelo 3D
-  preload/         ponte segura
-  renderer/src/
-    components/    interface (Avatar3D, painéis, conversa, configurações)
-    hooks/         useChat, useVoice, useProviders
-    lib/           microfone, fala por frases, emoções do avatar, API
-voice-workers/     serviços Python locais da voz personalizada (XTTS e RVC)
-```
+## Histórico de versões
 
-Para adicionar um provedor, implemente `LlmAdapter`, `SttAdapter` ou `TtsAdapter` e registre-o na fábrica correspondente.
+O que mudou em cada versão está no [CHANGELOG.md](CHANGELOG.md).
+
+---
+
+<div align="center"><sub>Assistente Yui — Personal Edition · © 2026 Helder (Maidzinha) · todos os direitos reservados ♡</sub></div>

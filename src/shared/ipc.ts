@@ -76,7 +76,7 @@ export const DEFAULT_SETTINGS = {
       rvcDir: '',
       rvcModel: '',
       rvcIndex: '',
-      // Ajuste escolhido ouvindo a voz da Maidzinha (versão “D3”).
+      // Ajuste escolhido ouvindo a voz clonada original (versão “D3”).
       rvcPitch: 3,
       rvcF0Method: 'rmvpe',
       rvcIndexRate: 0.5,

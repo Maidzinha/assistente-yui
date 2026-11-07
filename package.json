@@ -1,8 +1,8 @@
 {
   "name": "assistente-desktop",
   "productName": "Assistente",
-  "version": "0.1.0",
-  "description": "Assistente pessoal de IA local para Windows, com conversa por texto e voz.",
+  "version": "0.2.0",
+  "description": "Assistente Yui: irmÃ£zinha virtual para Windows, com conversa por texto e voz, memÃ³ria e avatar 3D.",
   "main": "out/main/index.js",
   "private": true,
   "scripts": {
@@ -12,9 +12,12 @@
     "typecheck": "tsc --noEmit -p tsconfig.node.json && tsc --noEmit -p tsconfig.web.json",
     "dist": "electron-vite build && electron-builder --win"
   },
-  "author": "Helder",
+  "author": "Helder (Maidzinha)",
+  "license": "SEE LICENSE IN LICENSE",
+  "homepage": "https://github.com/Maidzinha/assistente-yui",
   "build": {
     "appId": "com.helder.assistente",
+    "copyright": "Copyright (c) 2026 Helder (Maidzinha). Todos os direitos reservados.",
     "productName": "Assistente",
     "executableName": "Assistente",
     "directories": {
@@ -32,6 +35,14 @@
         "filter": [
           "*.py"
         ]
+      },
+      {
+        "from": "LICENSE",
+        "to": "LICENSE.txt"
+      },
+      {
+        "from": "THIRD-PARTY-NOTICES.md",
+        "to": "THIRD-PARTY-NOTICES.md"
       }
     ],
     "npmRebuild": false,
@@ -48,6 +59,7 @@
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
       "shortcutName": "Assistente Yui",
+      "license": "LICENSE",
       "artifactName": "Assistente-Yui-Instalador-${version}.${ext}"
     }
   },

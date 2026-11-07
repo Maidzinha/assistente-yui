@@ -16,3 +16,5 @@ config.json
 secrets.json
 .env*
 
+# ferramenta local de quem desenvolve
+scripts/copiar-dados.*

@@ -1,43 +1,23 @@
 {
   "llm": {
-    "provider": "ollama",
-    "baseUrl": "http://127.0.0.1:11434",
-    "model": "llama3.1:8b",
+    "provider": "openai-compatible",
+    "baseUrl": "https://api.groq.com/openai/v1",
+    "model": "openai/gpt-oss-20b",
     "temperature": 0.6
   },
   "stt": {
-    "provider": "local-whisper",
-    "baseUrl": "http://127.0.0.1:8080",
-    "model": "whisper-1",
-    "whisperPython": "C:\\Users\\SEU_USUARIO\\MiSideAI\\whisper\\.venv\\Scripts\\python.exe",
-    "whisperModel": "small",
-    "whisperDevice": "cpu"
+    "provider": "openai-compatible",
+    "baseUrl": "https://api.groq.com/openai/v1",
+    "model": "whisper-large-v3-turbo"
   },
   "tts": {
-    "provider": "custom-voice",
-    "voice": "",
-    "piperPath": "",
-    "piperModel": "",
-    "baseUrl": "http://127.0.0.1:8880/v1",
-    "model": "kokoro",
-    "rate": 1,
-    "custom": {
-      "name": "Voz da Maidzinha",
-      "xttsPython": "C:\\Users\\SEU_USUARIO\\MiSideAI\\xtts\\.venv\\Scripts\\python.exe",
-      "xttsModelDir": "C:\\Users\\SEU_USUARIO\\MiSideAI\\xtts\\modelo",
-      "xttsLatents": "F:\\Voz-Maidzinha\\xtts\\voz-maidzinha-latentes.pt",
-      "xttsDevice": "cuda",
-      "rvcEnabled": true,
-      "rvcPython": "C:\\Users\\SEU_USUARIO\\MiSideAI\\rvc\\.venv\\Scripts\\python.exe",
-      "rvcDir": "C:\\Users\\SEU_USUARIO\\MiSideAI\\rvc",
-      "rvcModel": "F:\\Voz-Maidzinha\\modelo-rvc\\maidzinha_e255_s15555.pth",
-      "rvcIndex": "F:\\Voz-Maidzinha\\modelo-rvc\\maidzinha_added_IVF1232_Flat_nprobe_1_maidzinha_v2.index",
-      "rvcPitch": 3,
-      "rvcF0Method": "rmvpe",
-      "rvcIndexRate": 0.5,
-      "rvcProtect": 0.33,
-      "rvcDevice": "cuda"
-    }
+    "provider": "elevenlabs",
+    "elevenVoiceId": "ID_DA_SUA_VOZ",
+    "elevenModel": "eleven_v4_turbo",
+    "elevenStability": 0.5,
+    "elevenSimilarity": 0.75,
+    "elevenTone": "none",
+    "rate": 0.95
   },
   "voice": {
     "language": "pt-BR",
@@ -45,5 +25,9 @@
     "speakTextReplies": true,
     "autoStopOnSilence": true,
     "continuousConversation": true
+  },
+  "avatar": {
+    "mode": "3d",
+    "vrmName": ""
   }
 }

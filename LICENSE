@@ -1,0 +1,72 @@
+LICENÇA DE USO PRIVADO — ASSISTENTE YUI (PERSONAL EDITION)
+
+Copyright (c) 2026 Helder (Maidzinha). Todos os direitos reservados.
+
+Este software é proprietário. Ele não é de código aberto: o fato de o código estar
+visível no GitHub não concede nenhuma permissão além das escritas abaixo.
+
+"Software" é o aplicativo Assistente Yui: o código-fonte, os executáveis, os pacotes
+de instalação, os textos e instruções da personagem, a interface, a identidade visual,
+o nome "Assistente Yui", a personagem Yui como aparece no app (desenhos, nome e
+personalidade) e a documentação.
+
+1. O QUE VOCÊ PODE FAZER
+
+   a) Baixar o Software pelas páginas oficiais do autor
+      (https://github.com/Maidzinha/assistente-yui).
+   b) Instalar e usar o Software sem custo, em quantos computadores quiser, para uso
+      pessoal.
+   c) Ver o código-fonte no GitHub, como os Termos de Serviço do GitHub permitem
+      para repositórios públicos.
+   d) Compilar o Software a partir do código, só para uso pessoal e sem modificá-lo.
+   e) Indicar o Software a outras pessoas compartilhando o link oficial.
+
+2. O QUE VOCÊ NÃO PODE FAZER
+
+   a) Modificar, adaptar, traduzir ou criar obras derivadas do Software, no todo ou em
+      parte, incluindo versões com outro nome, outra aparência ou outra personagem.
+   b) Apresentar o Software, ou qualquer parte dele, como obra sua ou de terceiros.
+      Isso inclui retirar ou alterar o nome do autor, os avisos de copyright e esta
+      licença.
+   c) Distribuir, publicar, hospedar ou disponibilizar cópias do Software, modificadas
+      ou não, fora das páginas oficiais do autor.
+   d) Vender, alugar, sublicenciar ou cobrar de qualquer forma pelo Software ou pelo
+      acesso a ele.
+   e) Usar o código, a interface, o nome "Assistente Yui", a personagem Yui ou a
+      identidade visual em outros projetos.
+   f) Fazer engenharia reversa dos executáveis, exceto quando a lei aplicável permitir
+      expressamente, apesar desta proibição.
+
+   Para qualquer uso fora do item 1, é preciso autorização prévia e por escrito do
+   autor.
+
+3. COMPONENTES E SERVIÇOS DE TERCEIROS
+
+   O Software usa componentes de terceiros, que continuam sob as licenças deles
+   (veja THIRD-PARTY-NOTICES.md). Esta licença não restringe os direitos que essas
+   licenças concedem sobre os componentes originais.
+
+   Os serviços na nuvem que o Software pode usar (Groq, ElevenLabs, Fish Audio) são de
+   seus respectivos donos e têm termos e preços próprios. Cada usuário usa as próprias
+   chaves de API e responde pelo uso que faz delas. Os modelos 3D (.vrm) e as vozes
+   que o usuário importa ou clona são de responsabilidade dele e não fazem parte do
+   Software.
+
+4. SEM GARANTIA
+
+   O SOFTWARE É FORNECIDO "NO ESTADO EM QUE SE ENCONTRA", SEM GARANTIAS DE QUALQUER
+   TIPO, EXPRESSAS OU IMPLÍCITAS, INCLUINDO GARANTIAS DE COMERCIALIZAÇÃO, ADEQUAÇÃO A
+   UM FIM ESPECÍFICO E NÃO VIOLAÇÃO. EM NENHUMA HIPÓTESE O AUTOR SERÁ RESPONSÁVEL POR
+   QUALQUER DANO, PERDA DE DADOS, COBRANÇA DE SERVIÇOS DE TERCEIROS OU OUTRA
+   RESPONSABILIDADE DECORRENTE DO USO OU DA IMPOSSIBILIDADE DE USO DO SOFTWARE.
+
+5. ENCERRAMENTO
+
+   Qualquer violação desta licença encerra automaticamente as permissões do item 1.
+   Nesse caso, você deve apagar todas as cópias do Software que estiverem com você.
+
+6. LEGISLAÇÃO
+
+   Esta licença segue as leis da República Federativa do Brasil, em especial a
+   Lei nº 9.610/1998 (direitos autorais) e a Lei nº 9.609/1998 (programas de
+   computador).

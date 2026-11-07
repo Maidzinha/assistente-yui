@@ -123,7 +123,7 @@ class FishAudioAdapter implements TtsAdapter {
   private hint(extra: string[] = []): string[] {
     return [
       ...extra,
-      'Crie a voz em fish.audio → Minhas vozes → Criar voz, enviando os áudios da Maidzinha.',
+      'Crie a voz em fish.audio → Minhas vozes → Criar voz, enviando áudios limpos da voz que você quer.',
       'Copie o código da voz (aparece no endereço da página da voz) e cole em Configurações → Voz.',
       'Gere a chave em fish.audio → API Keys e salve no campo "Chave de API da Fish Audio".'
     ]
@@ -193,7 +193,7 @@ class ElevenLabsAdapter implements TtsAdapter {
   private hint(extra: string[] = []): string[] {
     return [
       ...extra,
-      'Crie a voz em elevenlabs.io → Voices → Create a Voice → Instant Voice Clone, enviando os áudios da Maidzinha.',
+      'Crie a voz em elevenlabs.io → Voices → Create a Voice → Instant Voice Clone, enviando áudios limpos da voz que você quer.',
       'Copie o "Voice ID" da voz (menu ⋯ da voz → Copy voice ID) e cole em Configurações → Voz.',
       'Gere a chave em elevenlabs.io → Developers → API Keys e salve no campo "Chave de API da ElevenLabs".'
     ]
