@@ -4,6 +4,11 @@
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions follow `MAJOR.MINOR.PATCH`.
 
+## [Unreleased]
+
+- License changed to the **PolyForm Noncommercial 1.0.0**: the code may be used, modified and shared for
+  noncommercial purposes, keeping the license and the copyright notice.
+
 ## [0.2.0] — 2026-11-06
 
 - Side column reorganized: the Yui, voice chat and credits cards are no longer cut off and are more compact.

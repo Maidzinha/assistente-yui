@@ -2,7 +2,7 @@
   "name": "assistente-desktop",
   "productName": "Assistente",
   "version": "0.2.0",
-  "description": "Assistente Yui: irmÃ£zinha virtual para Windows, com conversa por texto e voz, memÃ³ria e avatar 3D.",
+  "description": "Assistente Yui: irmãzinha virtual para Windows, com conversa por texto e voz, memória e avatar 3D.",
   "main": "out/main/index.js",
   "private": true,
   "scripts": {
@@ -13,11 +13,11 @@
     "dist": "electron-vite build && electron-builder --win"
   },
   "author": "Helder (Maidzinha)",
-  "license": "SEE LICENSE IN LICENSE",
+  "license": "PolyForm-Noncommercial-1.0.0",
   "homepage": "https://github.com/Maidzinha/assistente-yui",
   "build": {
     "appId": "com.helder.assistente",
-    "copyright": "Copyright (c) 2026 Helder (Maidzinha). Todos os direitos reservados.",
+    "copyright": "Copyright (c) 2026 Helder (Maidzinha). PolyForm Noncommercial License 1.0.0.",
     "productName": "Assistente",
     "executableName": "Assistente",
     "directories": {

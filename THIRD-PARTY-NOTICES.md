@@ -1,6 +1,6 @@
 # Avisos de terceiros
 
-O Assistente Yui é proprietário (veja [LICENSE](LICENSE)). Ele inclui ou usa os componentes abaixo, que continuam
+O Assistente Yui usa a PolyForm Noncommercial License 1.0.0 (veja [LICENSE](LICENSE)). Ele inclui ou usa os componentes abaixo, que continuam
 sob as licenças de seus autores. Este aviso acompanha os pacotes de distribuição, como essas licenças exigem.
 
 | Componente | Autor | Licença | Onde |

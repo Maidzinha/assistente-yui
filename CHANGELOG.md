@@ -4,6 +4,11 @@
 
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/). As versões seguem `MAIOR.MENOR.CORREÇÃO`.
 
+## [Não lançado]
+
+- Licença trocada para a **PolyForm Noncommercial 1.0.0**: o código pode ser usado, modificado e compartilhado sem
+  fins comerciais, mantendo a licença e o aviso de copyright. Resumo em português em `LICENSE.pt.md`.
+
 ## [0.2.0] — 2026-11-06
 
 - Coluna lateral reorganizada: os cartões da Yui, da conversa por voz e dos créditos não são mais cortados e ficam mais compactos.

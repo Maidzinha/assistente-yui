@@ -12,7 +12,7 @@ her, appears in 3D changing expressions, and helps you use your computer. The ap
 [![Download](https://img.shields.io/github/v/release/Maidzinha/assistente-yui?label=download&color=e9799f&style=for-the-badge)](https://github.com/Maidzinha/assistente-yui/releases/latest)
 ![Windows 10/11](https://img.shields.io/badge/Windows-10%20%7C%2011-1a1a1a?style=for-the-badge&logo=windows)
 ![Electron](https://img.shields.io/badge/Electron-33-47848F?style=for-the-badge&logo=electron)
-[![License: private use](https://img.shields.io/badge/license-private%20use-e9799f?style=for-the-badge)](LICENSE.en.md)
+[![License: PolyForm Noncommercial 1.0.0](https://img.shields.io/badge/license-PolyForm%20Noncommercial-e9799f?style=for-the-badge)](LICENSE)
 
 ![Assistente Yui home screen](docs/images/inicio.png)
 
@@ -67,22 +67,21 @@ The **Créditos** panel shows how much you have left on ElevenLabs and how much 
 
 ## License
 
-Assistente Yui is **proprietary**, under a [private use license](LICENSE.en.md). All rights reserved.
+Assistente Yui is licensed under the **[PolyForm Noncommercial License 1.0.0](LICENSE)**.
 
-- ✅ **You may:** download it from here, install and use it for free for personal use, build it without changes, and share the official link.
-- ❌ **You may not:**
-  - modify the app or create derivative versions of it;
-  - present it as your own work;
-  - redistribute copies outside this repository;
-  - sell it;
-  - use the name, the Yui character or the visual identity in other projects.
+- ✅ **For any noncommercial purpose you may:** use, study and modify it, build new works on it, and share copies, with
+  or without changes. This covers personal use, study, hobbies, and schools, charities and public institutions.
+- 📄 **Required:** anyone who gets a copy from you must also get the license and the line
+  `Required Notice: Copyright (c) 2026 Helder (Maidzinha) (https://github.com/Maidzinha/assistente-yui)`.
+- ❌ **You may not:** use it commercially (sell it, charge for access, use it in a paid product or service or at a
+  for-profit company) or sublicense it. For commercial use, contact the author.
 
-The code is visible for reference only, which does not grant permission to reuse it.
+The license covers the code: it does not allow presenting another project as the official Assistente Yui.
 Third-party components (Electron, React, three.js, three-vrm…) keep their own licenses: see [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).
 
 ## Building from source
 
-Building is allowed for personal use only, without modifying the app (see the [license](LICENSE.en.md)). You need
+Building and modifying it is allowed for noncommercial purposes (see the [license](LICENSE)). You need
 [Node.js 20+](https://nodejs.org) on Windows.
 
 ```bash
@@ -112,4 +111,4 @@ What changed in each version is in the [changelog](docs/en/CHANGELOG.md).
 
 ---
 
-<div align="center"><sub>Assistente Yui — Personal Edition · © 2026 Helder (Maidzinha) · all rights reserved ♡</sub></div>
+<div align="center"><sub>Assistente Yui — Personal Edition · © 2026 Helder (Maidzinha) · PolyForm Noncommercial 1.0.0 ♡</sub></div>
