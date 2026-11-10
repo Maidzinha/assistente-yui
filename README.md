@@ -43,7 +43,8 @@ chaves de API, das contas **suas**:
 3. Aba **Voz**: escolha **ElevenLabs**, cole a chave e o **Voice ID** da voz que você quer (pode ser uma voz clonada sua).
 4. Aba **Aparência**: importe um modelo **`.vrm`** (feito no [VRoid Studio](https://vroid.com/studio), por exemplo) para ver a Yui em 3D.
    Sem modelo, ela aparece em 2D.
-5. Toque no **microfone** e converse, ou escreva na caixa de texto.
+5. Toque no **microfone** e converse, ou escreva na caixa de texto. Na aba **Microfone** você escolhe o modo:
+   tocar para falar, microfone livre ou apertar para falar.
 
 O painel **Créditos** mostra quanto ainda resta na ElevenLabs e quanto você gastou na Groq no mês.
 
@@ -53,7 +54,9 @@ O painel **Créditos** mostra quanto ainda resta na ElevenLabs e quanto você ga
 - 💬 **Voz com emoção:** nos modelos v3/v4 da ElevenLabs, a Yui ri, suspira ou fala baixinho só quando faz sentido; o padrão é falar normal.
 - 🧠 **Memória:** lembra das coisas importantes que você conta (nunca dados sensíveis). Dá para ver e apagar em Configurações → Memória.
 - 💖 **Personalidade:** irmãzinha descontraída, faz piadas e às vezes te zoa, sempre com carinho.
-- 🧍‍♀️ **Yui em 3D:** pisca, respira, mexe a boca com a voz e muda de expressão (feliz, triste, surpresa, brava, relaxada).
+- 🧍‍♀️ **Yui em 3D:** pisca, respira, mexe a boca com a voz, muda de expressão (feliz, triste, surpresa, brava, relaxada)
+  e acompanha o mouse com o olhar. Arraste para girar, use a roda do mouse para aproximar e escolha Rosto, Busto ou Corpo.
+- 🎚️ **Modos do microfone:** tocar para falar, microfone livre (ela fica ouvindo sozinha) ou apertar para falar (segurando uma tecla).
 - 📊 **Créditos:** caracteres restantes da ElevenLabs, gasto do mês e pedidos restantes do dia na Groq.
 - 🗂️ **Ajuda no PC:** encontra arquivos, abre pastas, documentos, aplicativos e sites.
 

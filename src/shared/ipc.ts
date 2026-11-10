@@ -89,7 +89,11 @@ export const DEFAULT_SETTINGS = {
     spokenReplies: true,
     speakTextReplies: false,
     autoStopOnSilence: true,
-    continuousConversation: true
+    continuousConversation: true,
+    micMode: 'tap',
+    micSensitivity: 5,
+    silenceSeconds: 1.3,
+    pushKey: 'F2'
   },
   avatar: {
     mode: '3d',

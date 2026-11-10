@@ -67,6 +67,7 @@ function Bubble({ msg, highlight }: { msg: ChatMessage; highlight?: string | nul
   return (
     <div className={`bubble-row ${mine ? 'mine' : 'theirs'}`}>
       <div className={`bubble ${msg.error ? 'bubble-error' : ''}`}>
+        {!mine && msg.source !== 'voice' && <span className="bubble-tag">Yui</span>}
         {msg.source === 'voice' && (
           <span className="bubble-tag"><Icon name="mic" size={12} /> {mine ? 'Transcrição' : 'Resposta falada'}</span>
         )}

@@ -47,6 +47,7 @@ export interface ConversationSummary {
   messageCount: number
 }
 
+export type MicMode = 'tap' | 'open' | 'push'
 export type LlmProviderId = 'ollama' | 'openai-compatible'
 export type SttProviderId = 'local-whisper' | 'whisper-cpp' | 'openai-compatible' | 'none'
 export type TtsProviderId = 'custom-voice' | 'elevenlabs' | 'fish-audio' | 'system' | 'piper' | 'openai-compatible' | 'none'
@@ -123,6 +124,18 @@ export interface Settings {
     speakTextReplies: boolean
     autoStopOnSilence: boolean
     continuousConversation: boolean
+    /**
+     * Como o microfone funciona na conversa por voz:
+     * tap = tocar para falar; open = microfone livre (fica ouvindo sozinho);
+     * push = apertar para falar (grava só enquanto a tecla está pressionada).
+     */
+    micMode: MicMode
+    /** Sensibilidade do microfone, de 1 (só voz alta) a 10 (capta voz baixa). */
+    micSensitivity: number
+    /** Segundos de silêncio até a Yui entender que você terminou de falar. */
+    silenceSeconds: number
+    /** Tecla do "apertar para falar" (KeyboardEvent.code). */
+    pushKey: string
   }
   avatar: {
     /** 3d mostra o modelo .vrm (se houver); 2d mostra o desenho com as bocas. */

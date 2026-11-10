@@ -1,11 +1,18 @@
 import { useEffect, useState, type ReactNode } from 'react'
 import type { MemoryItem, ProviderStatus, ProvidersStatus, SecretKey, SecretsInfo, Settings } from '@shared/types'
 import { api, errorMessage } from '../lib/api'
+import { PUSH_KEYS } from '../hooks/useVoice'
 import { listSystemVoices } from '../lib/speaker'
 import { Icon } from './Icon'
 import { Button, Modal, Spinner } from './ui'
 
-type Tab = 'ia' | 'voz' | 'aparencia' | 'memoria' | 'privacidade'
+type Tab = 'ia' | 'voz' | 'microfone' | 'aparencia' | 'memoria' | 'privacidade'
+
+const MIC_MODES: { id: Settings['voice']['micMode']; label: string; text: string }[] = [
+  { id: 'tap', label: 'Tocar para falar', text: 'Você toca no microfone para começar. A Yui envia quando você para de falar.' },
+  { id: 'open', label: 'Microfone livre', text: 'Depois de ligado, fica sempre ouvindo: é só falar, sem tocar em nada. Ela responde e volta a ouvir.' },
+  { id: 'push', label: 'Apertar para falar', text: 'Grava só enquanto você segura uma tecla. Bom para ambientes com barulho.' }
+]
 
 /** Escolha entre o desenho 2D e o modelo 3D (.vrm) da Yui. */
 function AppearanceTab({ avatar, onChange }: { avatar: Settings['avatar']; onChange(a: Settings['avatar']): Promise<void> }) {
@@ -253,7 +260,7 @@ export function SettingsDialog({ settings, status, checking, initialTab = 'ia', 
       }
     >
       <div className="tabs" role="tablist">
-        {([['ia', 'Modelo de IA'], ['voz', 'Voz'], ['aparencia', 'Aparência'], ['memoria', 'Memória'], ['privacidade', 'Privacidade e ações']] as const).map(([id, label]) => (
+        {([['ia', 'Modelo de IA'], ['voz', 'Voz'], ['microfone', 'Microfone'], ['aparencia', 'Aparência'], ['memoria', 'Memória'], ['privacidade', 'Privacidade e ações']] as const).map(([id, label]) => (
           <button key={id} role="tab" aria-selected={tab === id} className={`tab ${tab === id ? 'is-selected' : ''}`} onClick={() => setTab(id)}>
             {label}
           </button>
@@ -355,14 +362,6 @@ export function SettingsDialog({ settings, status, checking, initialTab = 'ia', 
           <label className="check">
             <input type="checkbox" checked={draft.voice.speakTextReplies} onChange={(e) => set('voice', { speakTextReplies: e.target.checked })} />
             Ler em voz alta também as respostas das mensagens digitadas
-          </label>
-          <label className="check">
-            <input type="checkbox" checked={draft.voice.continuousConversation} onChange={(e) => set('voice', { continuousConversation: e.target.checked })} />
-            Voltar a ouvir automaticamente depois de responder
-          </label>
-          <label className="check">
-            <input type="checkbox" checked={draft.voice.autoStopOnSilence} onChange={(e) => set('voice', { autoStopOnSilence: e.target.checked })} />
-            Enviar automaticamente quando eu parar de falar
           </label>
           <Field label="Provedor de voz">
             <select value={draft.tts.provider} onChange={(e) => set('tts', { provider: e.target.value as Settings['tts']['provider'] })}>
@@ -548,6 +547,68 @@ export function SettingsDialog({ settings, status, checking, initialTab = 'ia', 
               <input type="range" min={0.6} max={1.6} step={0.1} value={draft.tts.rate} onChange={(e) => set('tts', { rate: Number(e.target.value) })} />
             </Field>
           )}
+        </div>
+      )}
+
+      {tab === 'microfone' && (
+        <div className="settings-grid">
+          <StatusLine title="Reconhecimento de fala" status={status?.stt} checking={checking} />
+
+          <h3 className="settings-sub">Modo do microfone</h3>
+          <div className="choice-list" role="radiogroup" aria-label="Modo do microfone">
+            {MIC_MODES.map((m) => (
+              <label key={m.id} className={`choice ${draft.voice.micMode === m.id ? 'is-selected' : ''}`}>
+                <input type="radio" name="mic-mode" checked={draft.voice.micMode === m.id} onChange={() => set('voice', { micMode: m.id })} />
+                <span>
+                  <strong>{m.label}</strong>
+                  <small>{m.text}</small>
+                </span>
+              </label>
+            ))}
+          </div>
+
+          {draft.voice.micMode === 'push' && (
+            <Field label="Tecla para falar" hint="Segure a tecla enquanto fala e solte para enviar. Funciona com a janela da Yui em primeiro plano; clicar no botão do microfone também grava e envia.">
+              <select value={draft.voice.pushKey} onChange={(e) => set('voice', { pushKey: e.target.value })}>
+                {Object.entries(PUSH_KEYS).map(([code, label]) => <option key={code} value={code}>{label}</option>)}
+              </select>
+            </Field>
+          )}
+
+          {draft.voice.micMode === 'tap' && (
+            <>
+              <label className="check">
+                <input type="checkbox" checked={draft.voice.autoStopOnSilence} onChange={(e) => set('voice', { autoStopOnSilence: e.target.checked })} />
+                Enviar automaticamente quando eu parar de falar
+              </label>
+              <label className="check">
+                <input type="checkbox" checked={draft.voice.continuousConversation} onChange={(e) => set('voice', { continuousConversation: e.target.checked })} />
+                Voltar a ouvir automaticamente depois de responder
+              </label>
+            </>
+          )}
+
+          <h3 className="settings-sub">Ajustes</h3>
+          <Field
+            label={`Sensibilidade: ${draft.voice.micSensitivity}`}
+            hint="Aumente se a Yui não percebe quando você fala baixo; diminua se ela capta barulho do ambiente."
+          >
+            <input type="range" min={1} max={10} step={1} value={draft.voice.micSensitivity}
+              onChange={(e) => set('voice', { micSensitivity: Number(e.target.value) })} />
+          </Field>
+          {draft.voice.micMode !== 'push' && (
+            <Field
+              label={`Pausa para enviar: ${draft.voice.silenceSeconds.toFixed(1).replace('.', ',')} s`}
+              hint="Quanto tempo de silêncio a Yui espera até entender que você terminou de falar."
+            >
+              <input type="range" min={0.6} max={3} step={0.1} value={draft.voice.silenceSeconds}
+                onChange={(e) => set('voice', { silenceSeconds: Number(e.target.value) })} />
+            </Field>
+          )}
+          <p className="field-hint">
+            O microfone só liga depois que você inicia a conversa por voz, e o áudio não fica salvo no PC.
+            No microfone livre, use o botão de silenciar do painel de voz quando não quiser ser ouvido.
+          </p>
         </div>
       )}
 

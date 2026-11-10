@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import type { Settings } from '@shared/types'
+import type { MicMode, Settings } from '@shared/types'
 import fechada from '../assets/yui/boca-0-fechada.png'
 import pequena from '../assets/yui/boca-1-pequena.png'
 import media from '../assets/yui/boca-2-media.png'
@@ -19,7 +19,7 @@ type AvatarSettings = Settings['avatar']
 
 export type Presence = 'ready' | 'listening' | 'thinking' | 'speaking' | 'confirming' | 'offline' | 'loading'
 
-const PRESENCE: Record<Presence, string> = {
+const PRESENCE_LABEL: Record<Presence, string> = {
   ready: 'Pronta',
   listening: 'Ouvindo',
   thinking: 'Pensando',
@@ -97,7 +97,11 @@ export function CharacterPanel({ presence, sentence, avatar }: { presence: Prese
   const frame = useMouthFrame(presence === 'speaking' && !show3d)
   return (
     <section className={`panel character presence-${presence}`} aria-label="Sua assistente">
-      <div className={`portrait ${show3d ? 'is-3d' : ''}`} role="img" aria-label="Yui, assistente em estilo anime com cabelo rosa longo e suéter rosa">
+      <div
+        className={`portrait ${show3d ? 'is-3d' : ''}`}
+        role={show3d ? 'group' : 'img'}
+        aria-label={show3d ? 'Yui em 3D' : 'Yui, assistente em estilo anime com cabelo rosa longo e suéter rosa'}
+      >
         {show3d ? (
           <Avatar3D model={model} presence={presence} sentence={sentence ?? null} onError={onError} />
         ) : (
@@ -114,7 +118,7 @@ export function CharacterPanel({ presence, sentence, avatar }: { presence: Prese
           <p className="character-sub">Pode me chamar de <strong>Yui</strong></p>
         </div>
         <span className="presence-pill" role="status">
-          <span className="presence-dot" /> {PRESENCE[presence]}
+          <span className="presence-dot" /> {PRESENCE_LABEL[presence]}
         </span>
       </div>
     </section>
@@ -129,7 +133,17 @@ const VOICE_LABEL: Record<VoiceState, string> = {
   speaking: 'Falando'
 }
 
+const MODE_LABEL: Record<MicMode, string> = {
+  tap: 'Tocar para falar',
+  open: 'Microfone livre',
+  push: 'Apertar para falar'
+}
+
 interface VoiceProps {
+  mode: MicMode
+  /** Nome da tecla do "apertar para falar". */
+  pushKey: string
+  onOpenMicSettings(): void
   state: VoiceState
   active: boolean
   level: number
@@ -162,11 +176,12 @@ export function VoicePanel(p: VoiceProps) {
   const level = p.state === 'speaking' ? 0.7 : p.level
   const busy = p.state === 'transcribing' || p.state === 'thinking'
 
-  const primaryLabel = !p.active
-    ? 'Toque para conversar'
-    : p.state === 'listening' ? 'Toque para enviar'
-    : p.state === 'speaking' ? 'Toque para interromper'
-    : busy ? 'Processando…' : 'Toque para falar'
+  const hold = `Segure ${p.pushKey} para falar`
+  const primaryLabel = busy ? 'Processando…'
+    : p.active && p.state === 'speaking' ? (p.mode === 'push' ? `Toque ou segure ${p.pushKey} para interromper` : 'Toque para interromper')
+    : p.mode === 'push' ? (p.state === 'listening' ? 'Solte a tecla (ou toque) para enviar' : hold)
+    : p.mode === 'open' ? (!p.active ? 'Toque para ligar o microfone livre' : p.state === 'listening' ? 'Pode falar, estou ouvindo' : 'Toque para voltar a ouvir')
+    : !p.active ? 'Toque para conversar' : p.state === 'listening' ? 'Toque para enviar' : 'Toque para falar'
 
   return (
     <section className={`panel voice voice-${p.active ? p.state : 'off'}`} aria-label="Conversa por voz">
@@ -191,7 +206,7 @@ export function VoicePanel(p: VoiceProps) {
       ) : !p.sttReady && !p.statusLoading ? (
         <div className="voice-setup">
           <Icon name="micOff" size={22} />
-          <p>O reconhecimento de fala local ainda não está conectado, então você ainda não pode falar com a Yui. Ela continua respondendo em voz às mensagens digitadas, se essa opção estiver ligada.</p>
+          <p>O reconhecimento de fala ainda não está conectado, então por enquanto não dá para falar com a Yui. Ela continua respondendo em voz às mensagens digitadas, se essa opção estiver ligada.</p>
           <Button variant="secondary" icon="settings" onClick={p.onOpenSettings}>Ver como configurar</Button>
         </div>
       ) : (
@@ -210,6 +225,9 @@ export function VoicePanel(p: VoiceProps) {
             <Waveform level={level} bars={11} animated={animated} className="wave-side" />
           </div>
           <p className="voice-caption">{primaryLabel}</p>
+          <button type="button" className="voice-mode" onClick={p.onOpenMicSettings} title="Trocar o modo do microfone">
+            <Icon name="mic" size={13} /> {MODE_LABEL[p.mode]}
+          </button>
 
           {p.active && (
             <div className="voice-controls">

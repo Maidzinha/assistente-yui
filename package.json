@@ -1,7 +1,7 @@
 {
   "name": "assistente-desktop",
   "productName": "Assistente",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Assistente Yui: irmãzinha virtual para Windows, com conversa por texto e voz, memória e avatar 3D.",
   "main": "out/main/index.js",
   "private": true,

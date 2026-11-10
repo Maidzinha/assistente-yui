@@ -12,17 +12,32 @@ import { UsagePanel } from './components/UsagePanel'
 import { Button, IconButton, Notice, SectionLabel } from './components/ui'
 import { useChat } from './hooks/useChat'
 import { useRecent, useSettingsAndStatus } from './hooks/useProviders'
-import { useVoice } from './hooks/useVoice'
+import { pushKeyLabel, useVoice } from './hooks/useVoice'
 import { api } from './lib/api'
+
+function greeting(): string {
+  const h = new Date().getHours()
+  return h < 5 ? 'Boa madrugada' : h < 12 ? 'Bom dia' : h < 18 ? 'Boa tarde' : 'Boa noite'
+}
 
 export function App() {
   const { settings, status, checking, loadError, refreshStatus, save } = useSettingsAndStatus()
   const recent = useRecent()
   const chat = useChat(recent.reload)
   const voice = useVoice({ settings, status, send: chat.send, cancelTurn: chat.cancel, subscribe: chat.subscribe })
-  const [settingsTab, setSettingsTab] = useState<'ia' | 'voz' | null>(null)
+  const [settingsTab, setSettingsTab] = useState<'ia' | 'voz' | 'microfone' | null>(null)
   const [confirms, setConfirms] = useState<ConfirmRequest[]>([])
   const composer = useRef<ComposerHandle>(null)
+  // Coluna da Yui recolhida (modo foco na conversa); a escolha fica guardada.
+  const [sidebarHidden, setSidebarHidden] = useState(() => {
+    try { return localStorage.getItem('yui.coluna') === 'oculta' } catch { return false }
+  })
+  const toggleSidebar = useCallback(() => {
+    setSidebarHidden((hidden) => {
+      try { localStorage.setItem('yui.coluna', hidden ? 'visivel' : 'oculta') } catch { /* sem armazenamento */ }
+      return !hidden
+    })
+  }, [])
 
   useEffect(() => api?.actions.onConfirmRequest((req) => setConfirms((c) => [...c, req])), [])
 
@@ -50,6 +65,21 @@ export function App() {
     newConversation()
   }, [stopSpeaking, newConversation])
 
+  // Atalhos de teclado: Ctrl+N nova conversa, Ctrl+, configurações, Ctrl+B mostra/esconde a Yui.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (!e.ctrlKey || e.altKey || e.shiftKey) return
+      const k = e.key.toLowerCase()
+      if (k === 'n') startNewConversation()
+      else if (k === ',') setSettingsTab((t) => t ?? 'ia')
+      else if (k === 'b') toggleSidebar()
+      else return
+      e.preventDefault()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [startNewConversation, toggleSidebar])
+
   const llmOk = status?.llm.ok === true
   const inThread = chat.messages.length > 0 || chat.loadingConversation
   const busy = Boolean(chat.streaming)
@@ -65,7 +95,7 @@ export function App() {
   const setupNotice = status && !llmOk && (
     <Notice
       tone="warning"
-      title="A IA local ainda não está conectada"
+      title="A IA ainda não está conectada"
       actions={
         <>
           <Button variant="primary" icon="settings" onClick={() => setSettingsTab('ia')}>Abrir configurações</Button>
@@ -82,24 +112,37 @@ export function App() {
       <header className="titlebar">
         <div className="brand">
           <Icon name="logo" size={26} className="brand-icon" />
-          <span>Assistente</span>
-        </div>
-        <div className="titlebar-actions">
-          {inThread && (
-            <Button variant="ghost" icon="plus" onClick={startNewConversation}>Nova conversa</Button>
-          )}
-          <IconButton icon="settings" label="Configurações" onClick={() => setSettingsTab('ia')} />
+          <span>Assistente <em>Yui</em></span>
         </div>
       </header>
 
-      <div className="layout">
+      <div className={`layout ${sidebarHidden ? 'is-focus' : ''}`}>
+        <nav className="rail" aria-label="Navegação">
+          <IconButton icon="home" label="Início" active={!inThread} onClick={startNewConversation} />
+          <IconButton
+            icon="chat"
+            label="Continuar a última conversa"
+            active={inThread}
+            disabled={!inThread && !recent.items?.length}
+            onClick={() => !inThread && recent.items?.[0] && void chat.openConversation(recent.items[0].id)}
+          />
+          <IconButton icon="plus" label="Nova conversa (Ctrl+N)" onClick={startNewConversation} />
+          <span className="rail-space" />
+          <IconButton
+            icon="sidebar"
+            label={sidebarHidden ? 'Mostrar a Yui (Ctrl+B)' : 'Esconder a Yui (Ctrl+B)'}
+            className={sidebarHidden ? '' : 'is-on'}
+            onClick={toggleSidebar}
+          />
+          <IconButton icon="settings" label="Configurações (Ctrl+,)" onClick={() => setSettingsTab('ia')} />
+        </nav>
         <main className={`workspace ${inThread ? 'is-thread' : 'is-home'}`}>
           {loadError && <Notice tone="error" title="Erro ao iniciar">{loadError}</Notice>}
 
           {!inThread ? (
             <div className="home">
-              <SectionLabel>Seu espaço de trabalho</SectionLabel>
-              <h1 className="headline">O que vamos resolver hoje?</h1>
+              <p className="greeting">{greeting()} <span aria-hidden="true">♡</span></p>
+              <h1 className="headline">O que vamos <em>resolver</em> hoje?</h1>
               {setupNotice}
               <Composer
                 ref={composer}
@@ -113,7 +156,7 @@ export function App() {
               />
               {chat.sendError && <Notice tone="error" title="Não foi possível enviar">{chat.sendError}</Notice>}
               <Shortcuts onPick={(s) => composer.current?.prefill(s.prefill)} />
-              <SectionLabel>Atividade recente</SectionLabel>
+              <SectionLabel>Conversas recentes</SectionLabel>
               <RecentActivity
                 items={recent.items}
                 error={recent.error}
@@ -150,9 +193,12 @@ export function App() {
           )}
         </main>
 
-        <aside className="sidebar">
+        <aside className={`sidebar presence-${presence}`} hidden={sidebarHidden}>
           <CharacterPanel presence={presence} sentence={voice.spoken?.sentence} avatar={settings?.avatar} />
           <VoicePanel
+            mode={voice.mode}
+            pushKey={pushKeyLabel(settings?.voice.pushKey)}
+            onOpenMicSettings={() => setSettingsTab('microfone')}
             state={voice.state}
             active={voice.active}
             level={voice.level}

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import type { RateLimits, UsageInfo } from '@shared/types'
 import { api } from '../lib/api'
+import { Icon } from './Icon'
 import { IconButton } from './ui'
 
 const fmt = (n: number) => n.toLocaleString('pt-BR')
@@ -30,6 +31,13 @@ function limitLine(l: RateLimits | null, what: string) {
 export function UsagePanel({ refreshKey }: { refreshKey: unknown }) {
   const [info, setInfo] = useState<UsageInfo | null>(null)
   const [loading, setLoading] = useState(false)
+  const [open, setOpen] = useState(() => {
+    try { return localStorage.getItem('yui.creditos') === 'abertos' } catch { return false }
+  })
+  const toggle = () => setOpen((o) => {
+    try { localStorage.setItem('yui.creditos', o ? 'fechados' : 'abertos') } catch { /* sem armazenamento */ }
+    return !o
+  })
 
   const load = useCallback(() => {
     if (!api) return
@@ -52,13 +60,22 @@ export function UsagePanel({ refreshKey }: { refreshKey: unknown }) {
   const { eleven, groq } = info
 
   return (
-    <section className="panel usage" aria-label="Créditos dos serviços">
+    <section className={`panel usage ${open ? 'is-open' : ''}`} aria-label="Créditos dos serviços">
       <div className="usage-head">
-        <h2 className="panel-title">Créditos</h2>
+        <button type="button" className="usage-toggle" aria-expanded={open} onClick={toggle}>
+          <Icon name="chevron" size={16} className="usage-chevron" />
+          <span className="usage-toggle-title">Créditos</span>
+          {!open && (
+            <span className="usage-brief">
+              {eleven?.remaining !== undefined && <span>Voz <strong>{fmt(eleven.remaining)}</strong></span>}
+              {groq && <span>IA <strong>{usd(groq.month.costUsd)}</strong></span>}
+            </span>
+          )}
+        </button>
         <IconButton icon="refresh" label="Atualizar créditos" onClick={load} disabled={loading} />
       </div>
 
-      {eleven && (
+      {open && eleven && (
         <div className="usage-row">
           <div className="usage-title">
             <span>Voz · ElevenLabs</span>
@@ -75,7 +92,7 @@ export function UsagePanel({ refreshKey }: { refreshKey: unknown }) {
         </div>
       )}
 
-      {groq && (
+      {open && groq && (
         <div className="usage-row">
           <div className="usage-title">
             <span>IA e microfone · Groq</span>

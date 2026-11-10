@@ -2,10 +2,27 @@
 // Nada é salvo em disco: o buffer é descartado após a transcrição.
 
 const TARGET_RATE = 16_000
-const SPEECH_RMS = 0.025
-const SILENCE_MS = 1300
 const MAX_MS = 60_000
 const NO_SPEECH_MS = 8000
+/** No microfone livre, guarda só este tanto de áudio antes de a fala começar (para não cortar a 1ª sílaba). */
+const PRE_ROLL_CHUNKS = 8
+
+export interface RecorderOptions {
+  /** Encerra sozinho quando a pessoa para de falar. */
+  autoStop: boolean
+  /** Microfone livre: espera a fala começar pelo tempo que for, sem desistir. */
+  waitForSpeech: boolean
+  /** Sensibilidade de 1 a 10 (5 é o padrão). */
+  sensitivity: number
+  /** Silêncio, em milissegundos, que encerra a fala. */
+  silenceMs: number
+}
+
+/** Volume mínimo (RMS) para contar como fala: mais sensível = limite mais baixo. */
+function speechThreshold(sensitivity: number): number {
+  const s = Math.max(1, Math.min(10, sensitivity || 5))
+  return 0.025 * Math.pow(2, (5 - s) / 2)
+}
 
 export interface RecorderCallbacks {
   onLevel(level: number): void
@@ -21,9 +38,12 @@ export class MicRecorder {
   private heardSpeech = false
   private startedAt = 0
   private lastVoiceAt = 0
+  private loudChunks = 0
   private stopped = false
 
-  async start(cb: RecorderCallbacks, autoStop: boolean): Promise<void> {
+  async start(cb: RecorderCallbacks, opts: RecorderOptions): Promise<void> {
+    const threshold = speechThreshold(opts.sensitivity)
+    const silenceMs = Math.max(400, opts.silenceMs)
     this.stream = await navigator.mediaDevices.getUserMedia({
       audio: { channelCount: 1, echoCancellation: true, noiseSuppression: true, autoGainControl: true }
     })
@@ -42,13 +62,24 @@ export class MicRecorder {
       cb.onLevel(Math.min(1, rms * 8))
 
       const now = performance.now()
-      if (rms > SPEECH_RMS) {
-        this.heardSpeech = true
-        this.lastVoiceAt = now
+      if (rms > threshold) {
+        // Dois blocos seguidos acima do limite (~170 ms): um estalo isolado não conta como fala.
+        this.loudChunks++
+        if (this.loudChunks >= 2 && !this.heardSpeech) {
+          this.heardSpeech = true
+          if (opts.waitForSpeech) this.startedAt = now // o tempo máximo conta a partir da fala
+        }
+        if (this.heardSpeech) this.lastVoiceAt = now
+      } else {
+        this.loudChunks = 0
+      }
+      if (opts.waitForSpeech && !this.heardSpeech) {
+        if (this.chunks.length > PRE_ROLL_CHUNKS) this.chunks.splice(0, this.chunks.length - PRE_ROLL_CHUNKS)
+        return
       }
       if (now - this.startedAt > MAX_MS) cb.onAutoStop('max')
-      else if (autoStop && this.heardSpeech && now - this.lastVoiceAt > SILENCE_MS) cb.onAutoStop('silence')
-      else if (autoStop && !this.heardSpeech && now - this.startedAt > NO_SPEECH_MS) cb.onAutoStop('no-speech')
+      else if (opts.autoStop && this.heardSpeech && now - this.lastVoiceAt > silenceMs) cb.onAutoStop('silence')
+      else if (opts.autoStop && !this.heardSpeech && now - this.startedAt > NO_SPEECH_MS) cb.onAutoStop('no-speech')
     }
     source.connect(this.processor)
     this.processor.connect(this.ctx.destination)

@@ -4,8 +4,20 @@
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions follow `MAJOR.MINOR.PATCH`.
 
-## [Unreleased]
+## [0.3.0] — 2026-11-10
 
+- **New look:** Yui now lives on a large stage that fills the whole column, with her name and status on top; a side
+  navigation rail (home, last conversation, new conversation, hide Yui, settings); a centered home screen, shortcut
+  cards, subtle scrollbars and smooth animations.
+- **A livelier 3D Yui:** her eyes and head follow the mouse, and she looks up while thinking. Drag to rotate, use the
+  mouse wheel to zoom, and pick the framing (Face, Bust or Body). The framing adapts to the model's size and the
+  window height.
+- **Microphone modes**, in a new settings tab: *Tap to talk*, *Open microphone* (keeps listening on its own and
+  listens again after answering) and *Push to talk* (records while you hold a key). Sensitivity and the pause before
+  sending are adjustable too.
+- Collapsible credits panel that shows just a summary.
+- Keyboard shortcuts: `Ctrl+N` new conversation, `Ctrl+,` settings, `Ctrl+B` shows or hides Yui.
+- Fix: the microphone no longer stays on after a recording with no speech.
 - License changed to the **PolyForm Noncommercial 1.0.0**: the code may be used, modified and shared for
   noncommercial purposes, keeping the license and the copyright notice.
 

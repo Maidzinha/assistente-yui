@@ -22,7 +22,7 @@ function createWindow(): BrowserWindow {
     minWidth: 420,
     minHeight: 560,
     show: false,
-    title: 'Assistente',
+    title: 'Assistente Yui',
     backgroundColor: '#1a1218',
     titleBarStyle: 'hidden',
     titleBarOverlay: { color: '#1a1218', symbolColor: '#f2dde6', height: 56 },

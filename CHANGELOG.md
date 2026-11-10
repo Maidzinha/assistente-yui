@@ -4,8 +4,20 @@
 
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/). As versões seguem `MAIOR.MENOR.CORREÇÃO`.
 
-## [Não lançado]
+## [0.3.0] — 2026-11-10
 
+- **Visual novo:** a Yui agora fica em um palco grande que ocupa toda a coluna, com o nome e o estado por cima;
+  barra de navegação lateral (início, última conversa, nova conversa, esconder a Yui, configurações); tela inicial
+  centralizada, atalhos em cartões, barras de rolagem discretas e animações suaves.
+- **Yui em 3D mais viva:** o olhar e a cabeça acompanham o mouse, e ela olha para o alto enquanto pensa. Dá para
+  arrastar para girar, usar a roda do mouse para aproximar e escolher o enquadramento (Rosto, Busto ou Corpo).
+  O enquadramento se ajusta ao tamanho do modelo e à altura da janela.
+- **Modos do microfone**, em uma aba nova das configurações: *Tocar para falar*, *Microfone livre* (fica ouvindo
+  sozinho e volta a ouvir depois de responder) e *Apertar para falar* (grava enquanto você segura uma tecla).
+  Também dá para ajustar a sensibilidade e a pausa antes de enviar.
+- Painel de créditos recolhível, mostrando só o resumo.
+- Atalhos de teclado: `Ctrl+N` nova conversa, `Ctrl+,` configurações, `Ctrl+B` mostra ou esconde a Yui.
+- Correção: o microfone não ficava ligado à toa depois de uma gravação sem fala.
 - Licença trocada para a **PolyForm Noncommercial 1.0.0**: o código pode ser usado, modificado e compartilhado sem
   fins comerciais, mantendo a licença e o aviso de copyright. Resumo em português em `LICENSE.pt.md`.
 
