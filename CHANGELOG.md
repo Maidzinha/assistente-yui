@@ -17,7 +17,7 @@ O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/). As 
   Também dá para ajustar a sensibilidade e a pausa antes de enviar.
 - Painel de créditos recolhível, mostrando só o resumo.
 - Atalhos de teclado: `Ctrl+N` nova conversa, `Ctrl+,` configurações, `Ctrl+B` mostra ou esconde a Yui.
-- Correção: o microfone não ficava ligado à toa depois de uma gravação sem fala.
+- Correção: depois de uma gravação sem fala, o microfone agora é desligado de verdade.
 - Licença trocada para a **PolyForm Noncommercial 1.0.0**: o código pode ser usado, modificado e compartilhado sem
   fins comerciais, mantendo a licença e o aviso de copyright. Resumo em português em `LICENSE.pt.md`.
 
