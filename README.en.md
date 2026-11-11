@@ -35,18 +35,29 @@ need two API keys, from **your own** accounts:
 > Click **More info → Run anyway**. If Windows **Smart App Control** is on, it may block the installed app; in that
 > case, see [Building from source](#building-from-source).
 
+## What's new in 0.3.0
+
+- ✨ **New look:** Yui lives on a large stage next to the conversation, with a side navigation rail and a centered home screen.
+- 👀 **A livelier Yui:** her eyes and head follow the mouse, and you can rotate, zoom and pick the framing.
+- 🎚️ **Microphone modes:** tap to talk, open microphone or push to talk, in their own settings tab.
+- ⌨️ **Keyboard shortcuts** and a collapsible credits panel.
+
+The full list is in the [changelog](docs/en/CHANGELOG.md).
+
 ## How to use
 
 1. Install and open **Assistente Yui**.
-2. In **Configurações** (Settings, gear icon), **IA** tab: choose "compatível com OpenAI", URL `https://api.groq.com/openai/v1`,
-   model `openai/gpt-oss-20b`, and paste your Groq key. Do the same for **Microfone**, with model `whisper-large-v3-turbo`.
-3. **Voz** tab: choose **ElevenLabs**, paste your key and the **Voice ID** of the voice you want (it can be your own cloned voice).
-4. **Aparência** tab: import a **`.vrm`** model (made in [VRoid Studio](https://vroid.com/en/studio), for example) to see Yui in 3D.
+2. In **Configurações** (Settings, the gear on the side rail), **Modelo de IA** tab: choose "compatível com OpenAI",
+   URL `https://api.groq.com/openai/v1`, model `openai/gpt-oss-20b`, and paste your Groq key.
+3. **Voz** tab:
+   - under **Reconhecimento de fala**, choose "compatível com OpenAI", the same Groq address and model `whisper-large-v3-turbo`;
+   - under **Voz da Yui**, choose **ElevenLabs**, paste your key and the **Voice ID** of the voice you want (it can be your own cloned voice).
+4. **Microfone** tab: choose how you want to talk to her (see [Microphone modes](#microphone-modes)).
+5. **Aparência** tab: import a **`.vrm`** model (made in [VRoid Studio](https://vroid.com/en/studio), for example) to see Yui in 3D.
    Without a model, she appears in 2D.
-5. Tap the **microphone** and talk, or type in the text box. The **Microfone** tab lets you pick the mode:
-   tap to talk, open microphone or push to talk.
+6. Tap the **microphone** and talk, or type in the text box.
 
-The **Créditos** panel shows how much you have left on ElevenLabs and how much you spent on Groq this month.
+The **Créditos** panel, below Yui, shows how much you have left on ElevenLabs and how much you spent on Groq this month. Click it for details.
 
 ## What she does
 
@@ -55,15 +66,49 @@ The **Créditos** panel shows how much you have left on ElevenLabs and how much 
 - 🧠 **Memory:** remembers the important things you tell her (never sensitive data). You can view and delete them in Settings → Memória.
 - 💖 **Personality:** a laid-back little sister who jokes and sometimes teases you, always affectionately.
 - 🧍‍♀️ **Yui in 3D:** blinks, breathes, moves her mouth with her voice, changes expression (happy, sad, surprised, angry, relaxed)
-  and follows the mouse with her eyes. Drag to rotate, use the mouse wheel to zoom, and pick Face, Bust or Body.
-- 🎚️ **Microphone modes:** tap to talk, open microphone (she keeps listening on her own) or push to talk (holding a key).
+  and follows the mouse with her eyes.
 - 📊 **Credits:** ElevenLabs characters left, plus Groq's monthly spend and requests left today.
 - 🗂️ **PC help:** finds files and opens folders, documents, apps and websites.
+
+## Microphone modes
+
+Pick one in **Configurações → Microfone**, or click the mode name under the microphone button.
+
+| Mode | How it works | Good for |
+|---|---|---|
+| **Tocar para falar** (tap to talk) | Tap the microphone to start. She sends when you stop talking. | Everyday use |
+| **Microfone livre** (open microphone) | Once on, it keeps listening: just talk. She answers and listens again on her own. | Hands-free chatting |
+| **Apertar para falar** (push to talk) | Records only while you hold a key (F2 by default) and sends when you release it. | Noisy rooms |
+
+The same tab has the **sensitivity** (if she misses a quiet voice or picks up too much noise) and the **pause before sending**
+(how much silence she waits for before deciding you are done). Push to talk works while Yui's window is in the foreground;
+the available keys are F2, F4, F8, F9, right Ctrl, Insert and Pause.
+
+## 3D controls
+
+| Action | What it does |
+|---|---|
+| Move the mouse | She follows it with her eyes and head |
+| Drag on her | Rotates the camera |
+| Mouse wheel on her | Zooms in or out |
+| Double-click | Back to the default framing |
+| **Rosto / Busto / Corpo** buttons | Ready-made framings: face, bust, body (shown when you hover over her) |
+
+## Keyboard shortcuts
+
+| Shortcut | What it does |
+|---|---|
+| `Enter` | Sends the message (`Shift+Enter` adds a line break) |
+| `Ctrl+N` | New conversation |
+| `Ctrl+,` | Opens the settings |
+| `Ctrl+B` | Shows or hides Yui, to focus on the conversation |
+| `F2` (hold) | Talk, in push-to-talk mode |
 
 ## Security and privacy
 
 - **API keys** are encrypted by Windows (DPAPI) on your PC and never go into the code.
-- The **microphone** only turns on when you tap it, and audio is not kept on your PC (temporary files are deleted right after use).
+- The **microphone** only turns on after you start the voice chat, and audio is not kept on your PC (temporary files are deleted right after use).
+  With the open microphone it stays on until you end the chat or mute it in the voice panel.
 - PC actions follow a **closed list**. Anything that changes files or opens websites **asks for confirmation**; terminal,
   registry, installing programs and system folders are **blocked**.
 - What you say and type is sent to Groq and ElevenLabs to generate the answers, under each service's terms.

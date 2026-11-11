@@ -35,18 +35,29 @@ chaves de API, das contas **suas**:
 > Clique em **Mais informações → Executar assim mesmo**. Se o **Controle Inteligente de Aplicativos** do Windows estiver
 > ligado, ele pode bloquear o app instalado; nesse caso, veja [Compilar a partir do código](#compilar-a-partir-do-código).
 
+## Novidades da versão 0.3.0
+
+- ✨ **Visual novo:** a Yui fica em um palco grande ao lado da conversa, com barra de navegação lateral e tela inicial centralizada.
+- 👀 **Yui mais viva:** o olhar e a cabeça acompanham o mouse, e dá para girar, aproximar e escolher o enquadramento.
+- 🎚️ **Modos do microfone:** tocar para falar, microfone livre ou apertar para falar, em uma aba própria das configurações.
+- ⌨️ **Atalhos de teclado** e painel de créditos recolhível.
+
+A lista completa está no [CHANGELOG.md](CHANGELOG.md).
+
 ## Como usar
 
 1. Instale e abra o **Assistente Yui**.
-2. Em **Configurações** (engrenagem), aba **IA**: escolha "compatível com OpenAI", URL `https://api.groq.com/openai/v1`,
-   modelo `openai/gpt-oss-20b` e cole a chave da Groq. Faça o mesmo no **Microfone**, com o modelo `whisper-large-v3-turbo`.
-3. Aba **Voz**: escolha **ElevenLabs**, cole a chave e o **Voice ID** da voz que você quer (pode ser uma voz clonada sua).
-4. Aba **Aparência**: importe um modelo **`.vrm`** (feito no [VRoid Studio](https://vroid.com/studio), por exemplo) para ver a Yui em 3D.
+2. Em **Configurações** (engrenagem na barra lateral), aba **Modelo de IA**: escolha "compatível com OpenAI",
+   URL `https://api.groq.com/openai/v1`, modelo `openai/gpt-oss-20b` e cole a chave da Groq.
+3. Aba **Voz**:
+   - em **Reconhecimento de fala**, escolha "compatível com OpenAI", o mesmo endereço da Groq e o modelo `whisper-large-v3-turbo`;
+   - em **Voz da Yui**, escolha **ElevenLabs**, cole a chave e o **Voice ID** da voz que você quer (pode ser uma voz clonada sua).
+4. Aba **Microfone**: escolha como quer falar com ela (veja [Modos do microfone](#modos-do-microfone)).
+5. Aba **Aparência**: importe um modelo **`.vrm`** (feito no [VRoid Studio](https://vroid.com/studio), por exemplo) para ver a Yui em 3D.
    Sem modelo, ela aparece em 2D.
-5. Toque no **microfone** e converse, ou escreva na caixa de texto. Na aba **Microfone** você escolhe o modo:
-   tocar para falar, microfone livre ou apertar para falar.
+6. Toque no **microfone** e converse, ou escreva na caixa de texto.
 
-O painel **Créditos** mostra quanto ainda resta na ElevenLabs e quanto você gastou na Groq no mês.
+O painel **Créditos**, embaixo da Yui, mostra quanto ainda resta na ElevenLabs e quanto você gastou na Groq no mês. Clique nele para ver os detalhes.
 
 ## O que ela faz
 
@@ -55,15 +66,49 @@ O painel **Créditos** mostra quanto ainda resta na ElevenLabs e quanto você ga
 - 🧠 **Memória:** lembra das coisas importantes que você conta (nunca dados sensíveis). Dá para ver e apagar em Configurações → Memória.
 - 💖 **Personalidade:** irmãzinha descontraída, faz piadas e às vezes te zoa, sempre com carinho.
 - 🧍‍♀️ **Yui em 3D:** pisca, respira, mexe a boca com a voz, muda de expressão (feliz, triste, surpresa, brava, relaxada)
-  e acompanha o mouse com o olhar. Arraste para girar, use a roda do mouse para aproximar e escolha Rosto, Busto ou Corpo.
-- 🎚️ **Modos do microfone:** tocar para falar, microfone livre (ela fica ouvindo sozinha) ou apertar para falar (segurando uma tecla).
+  e acompanha o mouse com o olhar.
 - 📊 **Créditos:** caracteres restantes da ElevenLabs, gasto do mês e pedidos restantes do dia na Groq.
 - 🗂️ **Ajuda no PC:** encontra arquivos, abre pastas, documentos, aplicativos e sites.
+
+## Modos do microfone
+
+Escolha em **Configurações → Microfone**, ou clique no nome do modo embaixo do botão do microfone.
+
+| Modo | Como funciona | Bom para |
+|---|---|---|
+| **Tocar para falar** | Você toca no microfone para começar. Ela envia quando você para de falar. | O dia a dia |
+| **Microfone livre** | Depois de ligado, fica sempre ouvindo: é só falar. Ela responde e volta a ouvir sozinha. | Conversar sem usar as mãos |
+| **Apertar para falar** | Grava só enquanto você segura uma tecla (F2 por padrão) e envia quando você solta. | Ambientes com barulho |
+
+Na mesma aba dá para ajustar a **sensibilidade** (se ela não ouve voz baixa ou capta barulho demais) e a **pausa para enviar**
+(quanto silêncio ela espera até entender que você terminou). O apertar para falar funciona com a janela da Yui em primeiro plano;
+as teclas disponíveis são F2, F4, F8, F9, Ctrl direito, Insert e Pause.
+
+## Controles da Yui em 3D
+
+| Ação | O que faz |
+|---|---|
+| Mover o mouse | Ela acompanha com o olhar e a cabeça |
+| Arrastar sobre ela | Gira a câmera |
+| Roda do mouse sobre ela | Aproxima ou afasta |
+| Dois cliques | Volta ao enquadramento padrão |
+| Botões **Rosto / Busto / Corpo** | Enquadramentos prontos (aparecem ao passar o mouse sobre ela) |
+
+## Atalhos de teclado
+
+| Atalho | O que faz |
+|---|---|
+| `Enter` | Envia a mensagem (`Shift+Enter` quebra a linha) |
+| `Ctrl+N` | Nova conversa |
+| `Ctrl+,` | Abre as configurações |
+| `Ctrl+B` | Mostra ou esconde a Yui, para focar na conversa |
+| `F2` (segurar) | Fala, no modo apertar para falar |
 
 ## Segurança e privacidade
 
 - As **chaves de API** ficam cifradas pelo Windows (DPAPI) no seu PC e nunca vão para o código.
-- O **microfone** só liga quando você toca nele, e o áudio não fica salvo no PC (arquivos temporários são apagados logo após o uso).
+- O **microfone** só liga depois que você inicia a conversa por voz, e o áudio não fica salvo no PC (arquivos temporários são apagados logo após o uso).
+  No microfone livre ele fica ligado até você encerrar ou silenciar pelo painel de voz.
 - As ações no PC seguem uma **lista fechada**. O que muda arquivos ou abre sites **pede confirmação**; terminal,
   registro, instalação de programas e pastas do sistema são **bloqueados**.
 - O que você fala e escreve vai para a Groq e para a ElevenLabs para gerar as respostas, conforme os termos de cada serviço.
