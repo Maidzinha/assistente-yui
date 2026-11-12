@@ -48,6 +48,13 @@ const api: AssistantApi = {
   voice: {
     transcribe: (wav, language) => ipcRenderer.invoke(IPC.voiceTranscribe, wav, language),
     synthesize: (text) => ipcRenderer.invoke(IPC.voiceSynthesize, text)
+  },
+  license: {
+    status: () => ipcRenderer.invoke(IPC.licenseStatus),
+    check: () => ipcRenderer.invoke(IPC.licenseCheck),
+    activate: (key, email) => ipcRenderer.invoke(IPC.licenseActivate, key, email),
+    deactivate: () => ipcRenderer.invoke(IPC.licenseDeactivate),
+    onChange: (cb) => subscribe(IPC.licenseChanged, cb)
   }
 }
 

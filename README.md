@@ -151,6 +151,17 @@ npm run dev
 
 Outros comandos: `npm run build` (compila em `out/`), `npm run typecheck` e `npm run dist` (gera o instalador em `release/`).
 
+### Ativação (chave de licença)
+
+A Yui só abre com uma chave ativa, emitida pelo **Maidzinha License Manager** (aplicativo `ASSISTENTE-YUI`).
+Antes de compilar, copie `.env.example` para `.env.local` e preencha o endereço da API e a chave de API do app
+(no License Manager: **Aplicativos → Assistente Yui**). O `.env.local` não vai para o Git.
+
+- Na primeira abertura ela pede a chave e ativa este PC (o limite de computadores vem do painel).
+- A licença é conferida de novo a cada abertura e a cada 30 minutos; as respostas do servidor são assinadas (HMAC-SHA256 + nonce).
+- Sem internet, continua funcionando por até 3 dias desde a última verificação.
+- Para trocar de PC: **Configurações → Licença → Desativar neste PC**.
+
 Se o Windows bloquear o app instalado, rode `npm run build` e abra pelo Electron do projeto com um atalho para
 `node_modules\electron\dist\electron.exe "<pasta do projeto>"`.
 
@@ -164,6 +175,7 @@ Se o Windows bloquear o app instalado, rode `npm run build` e abra pelo Electron
 | `src/main/memory` | Memória de longo prazo |
 | `src/main/actions` | Ações permitidas no PC, validação de caminhos e confirmações |
 | `src/main/config` | Configurações e chaves cifradas |
+| `src/main/license` | Ativação e validação da licença no Maidzinha License Manager |
 | `src/main/usage.ts` · `avatar.ts` | Créditos dos serviços e importação do modelo 3D |
 | `src/preload` | Ponte segura entre a interface e o sistema |
 | `src/renderer` | Interface React (Yui em 3D, painéis, conversa, configurações) |
