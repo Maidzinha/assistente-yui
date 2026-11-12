@@ -15,6 +15,7 @@ config.json
 *.bak
 secrets.json
 .env*
+!.env.example
 
 # ferramenta local de quem desenvolve
 scripts/copiar-dados.*

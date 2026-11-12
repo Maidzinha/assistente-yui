@@ -2,6 +2,7 @@ import type {
   ChatEvent, ConfirmRequest, Conversation, ConversationSummary, MemoryItem, MessageSource, ProvidersStatus,
   SecretKey, SecretsInfo, Settings, StartTurnResult, SynthesisResult, TranscriptionResult, UsageInfo
 } from '../shared/types'
+import type { LicenseStatus } from '../shared/license'
 
 export interface AssistantApi {
   settings: {
@@ -43,6 +44,15 @@ export interface AssistantApi {
   voice: {
     transcribe(wav: ArrayBuffer, language: string): Promise<TranscriptionResult>
     synthesize(text: string): Promise<SynthesisResult>
+  }
+  license: {
+    status(): Promise<LicenseStatus>
+    /** Revalida agora com o servidor. */
+    check(): Promise<LicenseStatus>
+    activate(key: string, email?: string): Promise<LicenseStatus>
+    /** Libera este PC na licença e apaga a chave local. */
+    deactivate(): Promise<LicenseStatus>
+    onChange(cb: (status: LicenseStatus) => void): () => void
   }
 }
 

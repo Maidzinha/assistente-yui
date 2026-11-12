@@ -4,9 +4,10 @@ import { api, errorMessage } from '../lib/api'
 import { PUSH_KEYS } from '../hooks/useVoice'
 import { listSystemVoices } from '../lib/speaker'
 import { Icon } from './Icon'
+import { LicenseTab } from './LicenseGate'
 import { Button, Modal, Spinner } from './ui'
 
-type Tab = 'ia' | 'voz' | 'microfone' | 'aparencia' | 'memoria' | 'privacidade'
+type Tab = 'ia' | 'voz' | 'microfone' | 'aparencia' | 'memoria' | 'licenca' | 'privacidade'
 
 const MIC_MODES: { id: Settings['voice']['micMode']; label: string; text: string }[] = [
   { id: 'tap', label: 'Tocar para falar', text: 'Você toca no microfone para começar. A Yui envia quando você para de falar.' },
@@ -260,7 +261,7 @@ export function SettingsDialog({ settings, status, checking, initialTab = 'ia', 
       }
     >
       <div className="tabs" role="tablist">
-        {([['ia', 'Modelo de IA'], ['voz', 'Voz'], ['microfone', 'Microfone'], ['aparencia', 'Aparência'], ['memoria', 'Memória'], ['privacidade', 'Privacidade e ações']] as const).map(([id, label]) => (
+        {([['ia', 'Modelo de IA'], ['voz', 'Voz'], ['microfone', 'Microfone'], ['aparencia', 'Aparência'], ['memoria', 'Memória'], ['licenca', 'Licença'], ['privacidade', 'Privacidade e ações']] as const).map(([id, label]) => (
           <button key={id} role="tab" aria-selected={tab === id} className={`tab ${tab === id ? 'is-selected' : ''}`} onClick={() => setTab(id)}>
             {label}
           </button>
@@ -624,6 +625,8 @@ export function SettingsDialog({ settings, status, checking, initialTab = 'ia', 
       )}
 
       {tab === 'memoria' && <MemoryTab />}
+
+      {tab === 'licenca' && <LicenseTab />}
 
       {tab === 'privacidade' && (
         <div className="settings-grid prose">

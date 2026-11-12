@@ -29,7 +29,13 @@ export const IPC = {
   memoryClear: 'memory:clear',
 
   voiceTranscribe: 'voice:transcribe',
-  voiceSynthesize: 'voice:synthesize'
+  voiceSynthesize: 'voice:synthesize',
+
+  licenseStatus: 'license:status',
+  licenseCheck: 'license:check',
+  licenseActivate: 'license:activate',
+  licenseDeactivate: 'license:deactivate',
+  licenseChanged: 'license:changed'
 } as const
 
 export const DEFAULT_SETTINGS = {

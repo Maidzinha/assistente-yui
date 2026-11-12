@@ -1,4 +1,4 @@
-import { BrowserWindow, ipcMain, type WebContents } from 'electron'
+import { BrowserWindow, ipcMain, type IpcMainInvokeEvent, type WebContents } from 'electron'
 import { loadAvatar, pickAvatar, removeAvatar } from './avatar'
 import { randomUUID } from 'node:crypto'
 import { IPC } from '@shared/ipc'
@@ -11,6 +11,7 @@ import { cancelAction } from './actions/runner'
 import { getSecretsInfo, getSettings, saveSettings, setSecret } from './config/store'
 import { getConversation, listConversations, removeConversation, saveConversation } from './conversation/history'
 import { clearMemories, listMemories, removeMemory } from './memory/store'
+import { activateLicense, assertLicensed, checkLicense, deactivateLicense, getLicenseStatus } from './license'
 import { getUsage } from './usage'
 import { getStt, prewarmStt, sttHealth } from './voice/stt'
 import { getTts, prewarmTts, ttsHealth } from './voice/tts'
@@ -98,20 +99,35 @@ const asString = (v: unknown, max = 20_000) => {
   return v.slice(0, max)
 }
 
+// Todo canal da Yui exige licença ativa; só os de licença ficam livres.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function handle(channel: string, fn: (e: IpcMainInvokeEvent, ...args: any[]) => unknown): void {
+  ipcMain.handle(channel, (e, ...args) => {
+    assertLicensed()
+    return fn(e, ...args)
+  })
+}
+
 export function registerIpc(): void {
-  ipcMain.handle(IPC.settingsGet, () => getSettings())
-  ipcMain.handle(IPC.settingsSave, async (_e, s: Settings) => {
+  ipcMain.handle(IPC.licenseStatus, () => getLicenseStatus())
+  ipcMain.handle(IPC.licenseCheck, () => checkLicense())
+  ipcMain.handle(IPC.licenseActivate, (_e, key: unknown, email: unknown) =>
+    activateLicense(asString(key, 128), typeof email === 'string' ? email.slice(0, 160) : undefined))
+  ipcMain.handle(IPC.licenseDeactivate, () => deactivateLicense())
+
+  handle(IPC.settingsGet, () => getSettings())
+  handle(IPC.settingsSave, async (_e, s: Settings) => {
     const saved = await saveSettings(s)
     void prewarmTts(saved)
     void prewarmStt(saved)
     return saved
   })
-  ipcMain.handle(IPC.secretsInfo, () => getSecretsInfo())
-  ipcMain.handle(IPC.secretsSet, (_e, key: SecretKey, value: string | null) => {
+  handle(IPC.secretsInfo, () => getSecretsInfo())
+  handle(IPC.secretsSet, (_e, key: SecretKey, value: string | null) => {
     if (!SECRET_KEYS.includes(key)) throw new Error('Chave desconhecida.')
     return setSecret(key, value ? asString(value, 4000) : null)
   })
-  ipcMain.handle(IPC.providersStatus, async () => {
+  handle(IPC.providersStatus, async () => {
     const settings = await getSettings()
     // Reinicia serviços de voz que falharam (botão “Verificar conexões”).
     await Promise.all([prewarmTts(settings), prewarmStt(settings)])
@@ -123,26 +139,26 @@ export function registerIpc(): void {
     return { llm, stt, tts }
   })
 
-  ipcMain.handle(IPC.chatSend, (e, conversationId: string | null, text: unknown, source: MessageSource) => {
+  handle(IPC.chatSend, (e, conversationId: string | null, text: unknown, source: MessageSource) => {
     const t = asString(text).trim()
     if (!t) throw new Error('Mensagem vazia.')
     return startTurn(e.sender, conversationId, t, source === 'voice' ? 'voice' : 'text')
   })
   ipcMain.on(IPC.chatCancel, (_e, turnId: string) => turns.get(turnId)?.abort())
 
-  ipcMain.handle(IPC.historyList, () => listConversations())
-  ipcMain.handle(IPC.historyGet, (_e, id: string) => getConversation(asString(id, 100)))
-  ipcMain.handle(IPC.historyRemove, (_e, id: string) => removeConversation(asString(id, 100)))
+  handle(IPC.historyList, () => listConversations())
+  handle(IPC.historyGet, (_e, id: string) => getConversation(asString(id, 100)))
+  handle(IPC.historyRemove, (_e, id: string) => removeConversation(asString(id, 100)))
 
-  ipcMain.handle(IPC.usageGet, async () => getUsage(await getSettings()))
+  handle(IPC.usageGet, async () => getUsage(await getSettings()))
 
-  ipcMain.handle(IPC.avatarPick, (e) => pickAvatar(BrowserWindow.fromWebContents(e.sender)))
-  ipcMain.handle(IPC.avatarLoad, () => loadAvatar())
-  ipcMain.handle(IPC.avatarRemove, () => removeAvatar())
+  handle(IPC.avatarPick, (e) => pickAvatar(BrowserWindow.fromWebContents(e.sender)))
+  handle(IPC.avatarLoad, () => loadAvatar())
+  handle(IPC.avatarRemove, () => removeAvatar())
 
-  ipcMain.handle(IPC.memoryList, () => listMemories())
-  ipcMain.handle(IPC.memoryRemove, (_e, id: string) => removeMemory(asString(id, 100)))
-  ipcMain.handle(IPC.memoryClear, () => clearMemories())
+  handle(IPC.memoryList, () => listMemories())
+  handle(IPC.memoryRemove, (_e, id: string) => removeMemory(asString(id, 100)))
+  handle(IPC.memoryClear, () => clearMemories())
 
   ipcMain.on(IPC.actionConfirmResponse, (_e, actionId: string, approved: boolean) => {
     const p = pendingConfirms.get(actionId)
@@ -156,7 +172,7 @@ export function registerIpc(): void {
     cancelAction(actionId)
   })
 
-  ipcMain.handle(IPC.voiceTranscribe, async (_e, wav: ArrayBuffer, language: string) => {
+  handle(IPC.voiceTranscribe, async (_e, wav: ArrayBuffer, language: string) => {
     if (!(wav instanceof ArrayBuffer) || wav.byteLength < 44 || wav.byteLength > MAX_AUDIO_BYTES) {
       throw new Error('Áudio inválido ou longo demais.')
     }
@@ -166,7 +182,7 @@ export function registerIpc(): void {
     // O áudio fica só na memória durante a transcrição.
     return stt.transcribe(wav, asString(language, 10))
   })
-  ipcMain.handle(IPC.voiceSynthesize, async (_e, text: unknown) => {
+  handle(IPC.voiceSynthesize, async (_e, text: unknown) => {
     const settings = await getSettings()
     const tts = await getTts(settings)
     if (!tts) throw new Error('A síntese de voz deste provedor é feita pela interface.')

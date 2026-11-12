@@ -506,3 +506,26 @@ mark.spoken { background: var(--accent-soft); color: var(--text); border-radius:
 .avatar3d.is-ready { opacity: 1; }
 .avatar3d canvas { display: block; width: 100%; height: 100%; }
 .avatar-error { position: absolute; top: 0; left: 0; right: 0; margin: 0; padding: 8px 16px; font-size: 12.5px; color: var(--warning); background: rgba(21, 14, 19, 0.8); }
+
+/* Licença (tela de ativação e Configurações → Licença) */
+.license-screen {
+  height: 100%; overflow-y: auto; display: grid; place-items: center; padding: 72px 16px 32px;
+  background: radial-gradient(900px 420px at 50% -8%, rgba(233, 121, 159, 0.14), transparent 70%), var(--bg);
+  -webkit-app-region: drag;
+}
+.license-card {
+  -webkit-app-region: no-drag;
+  width: min(460px, 100%); display: flex; flex-direction: column; gap: 16px;
+  padding: 28px; border: 1px solid var(--border-strong); border-radius: 18px; background: var(--surface); box-shadow: var(--shadow);
+  animation: rise 0.35s ease both;
+}
+.license-brand { display: flex; align-items: center; gap: 14px; }
+.license-brand h1 { margin: 0; font: 700 24px/1.15 var(--serif); }
+.license-brand h1 em { font-style: normal; color: var(--accent); }
+.license-brand p { margin: 2px 0 0; font-size: 14px; }
+.license-key-input { font-family: Consolas, ui-monospace, monospace; letter-spacing: 0.06em; }
+.license-card .btn-primary { justify-content: center; padding: 11px 14px; }
+.license-card .notice p { margin: 0; }
+.license-info { display: grid; grid-template-columns: max-content 1fr; gap: 8px 18px; margin: 0; font-size: 14px; }
+.license-info dt { color: var(--muted); }
+.license-info dd { margin: 0; overflow-wrap: anywhere; }

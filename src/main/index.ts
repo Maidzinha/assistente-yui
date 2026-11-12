@@ -1,6 +1,7 @@
 import { app, BrowserWindow, session, shell } from 'electron'
 import { join } from 'node:path'
 import { registerIpc } from './ipc'
+import { startLicensing } from './license'
 import { stopAllWorkers } from './voice/workers'
 
 // Configurações e histórico ficam sempre em %APPDATA%\Assistente.
@@ -79,8 +80,10 @@ if (!app.requestSingleInstanceLock()) {
   })
 }
 
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
   if (!app.hasSingleInstanceLock()) return
+  // A licença é conferida antes de abrir a janela; sem ela, a interface mostra a tela de ativação.
+  await startLicensing().catch(() => undefined)
   // Somente o microfone é liberado, e somente para a própria interface.
   session.defaultSession.setPermissionRequestHandler((wc, permission, callback, details) => {
     const media = details as { mediaTypes?: string[] }
